@@ -2078,3 +2078,77 @@ img, video, iframe{max-width:100%;}
   .dashboard-mobile-head .side-brand img{width:38px !important;height:38px !important;flex-basis:38px !important;}
   .dash-menu-btn{width:42px !important;height:42px !important;top:17px !important;right:12px !important;}
 }
+
+
+/* === Final UX fix: auth and 404 pages show only their own content === */
+body.auth-only-page .nav,
+body.auth-only-page .luxe-footer,
+body.auth-only-page .footer,
+body.error-only-page .nav,
+body.error-only-page .luxe-footer,
+body.error-only-page .footer{
+  display:none!important;
+}
+body.auth-only-page,
+body.error-only-page{
+  min-height:100vh;
+  overflow-x:hidden;
+  background:#050305;
+}
+.auth-close{
+  position:fixed;
+  top:22px;
+  right:22px;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  z-index:9999;
+  background:linear-gradient(135deg,#f1d177,#b88a20);
+  color:#050305!important;
+  font-size:32px;
+  line-height:1;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 0 28px rgba(212,175,55,.35);
+  transition:.35s ease;
+}
+.auth-close:hover,
+.auth-close:focus{
+  transform:rotate(90deg) scale(1.08);
+  outline:2px solid #fff4d0;
+  outline-offset:4px;
+}
+body.auth-only-page .new-auth{
+  min-height:100vh!important;
+  padding-top:0!important;
+}
+body.error-only-page .center-404,
+body.error-only-page .not-found-hero,
+body.error-only-page .centered-404{
+  min-height:100vh!important;
+  width:100%;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  padding:70px 22px!important;
+}
+body.error-only-page .centered-404 .reveal{
+  max-width:820px;
+  margin:0 auto;
+}
+body.error-only-page .centered-404 h1{
+  color:#fff4d0!important;
+  text-shadow:0 0 30px rgba(212,175,55,.22);
+}
+body.error-only-page .error-actions{
+  justify-content:center!important;
+}
+@media(max-width:760px){
+  .auth-close{top:16px;right:16px;width:42px;height:42px;font-size:28px;}
+  body.auth-only-page .auth-visual{display:none!important;}
+  body.auth-only-page .new-auth{display:flex!important;align-items:center!important;justify-content:center!important;padding:72px 18px 30px!important;}
+  body.auth-only-page .auth-panel{width:min(100%,460px)!important;border-radius:28px!important;}
+}
