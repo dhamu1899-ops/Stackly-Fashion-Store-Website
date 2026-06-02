@@ -160,3 +160,41 @@ const year=document.querySelector('#year');if(year)year.textContent=new Date().g
     });
   }
 })();
+
+
+// Premium page interactions: slider, counters, modal and tilt cards
+(function(){
+  const reviews=[...document.querySelectorAll('.review-slider article')];
+  if(reviews.length){let i=0;setInterval(()=>{reviews[i].classList.remove('active');i=(i+1)%reviews.length;reviews[i].classList.add('active');},3600);}
+
+  const countEls=[...document.querySelectorAll('[data-count]')];
+  if(countEls.length){
+    const counterObs=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      if(!entry.isIntersecting || entry.target.dataset.done) return;
+      entry.target.dataset.done='true';
+      const end=parseInt(entry.target.dataset.count,10);let cur=0;const step=Math.max(1,Math.ceil(end/48));
+      const timer=setInterval(()=>{cur+=step;if(cur>=end){cur=end;clearInterval(timer);}entry.target.textContent=cur+(end===25?'K+':end===850?'+':end===40?'+':'');},28);
+    }),{threshold:.4});
+    countEls.forEach(el=>counterObs.observe(el));
+  }
+
+  const modal=document.querySelector('.fashion-modal');
+  if(modal){
+    const title=modal.querySelector('h2'),copy=modal.querySelector('p');
+    document.querySelectorAll('.open-fashion-modal').forEach(btn=>btn.addEventListener('click',()=>{
+      title.textContent=btn.dataset.title||'Stackly Fashion';copy.textContent=btn.dataset.copy||'Premium fashion story.';modal.classList.add('open');modal.setAttribute('aria-hidden','false');
+    }));
+    modal.querySelector('.close-fashion-modal')?.addEventListener('click',()=>{modal.classList.remove('open');modal.setAttribute('aria-hidden','true');});
+    modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}});
+  }
+
+  document.querySelectorAll('.tilt-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=((e.clientX-r.left)/r.width-.5)*8;
+      const y=((e.clientY-r.top)/r.height-.5)*-8;
+      card.style.transform=`perspective(900px) rotateY(${x}deg) rotateX(${y}deg)`;
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='';});
+  });
+})();
