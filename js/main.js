@@ -198,3 +198,39 @@ const year=document.querySelector('#year');if(year)year.textContent=new Date().g
     card.addEventListener('mouseleave',()=>{card.style.transform='';});
   });
 })();
+
+// TESTER FIX ONLY: robust hamburger menu toggle for all pages, no animation code removed
+(function(){
+  const hamb = document.querySelector('.hamb');
+  const links = document.querySelector('.links');
+  if(!hamb || !links) return;
+
+  function setMenu(open){
+    links.classList.toggle('open', open);
+    document.body.classList.toggle('no-scroll', open);
+    hamb.setAttribute('aria-expanded', open ? 'true' : 'false');
+    hamb.textContent = open ? '×' : '☰';
+  }
+
+  hamb.setAttribute('aria-controls','main-navigation');
+  links.setAttribute('id','main-navigation');
+  hamb.setAttribute('aria-expanded', links.classList.contains('open') ? 'true' : 'false');
+
+  hamb.addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    setMenu(!links.classList.contains('open'));
+  }, true);
+
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ setMenu(false); });
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') setMenu(false);
+  });
+
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 1100) setMenu(false);
+  });
+})();
